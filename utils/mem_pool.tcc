@@ -12,20 +12,23 @@ MemoryPool<T, block_size>::pad_pointer(data_pointer p,  size_type align)
 }
 
 template<class T, size_t block_size>
-typename MemoryPool<T, block_size>::slot_pointer
-MemoryPool<T, block_size>::_cur_block = nullptr;
+typename MemoryPool<T, block_size>::MemoryPool() noexcept :
+  cur_block_(nullptr),
+  cur_slot_(nullptr),
+  last_slot_(nullptr),
+  free_slot_(nullptr)
+{}
 
 template<class T, size_t block_size>
-typename MemoryPool<T, block_size>::slot_pointer
-MemoryPool<T, block_size>::_cur_slot = nullptr;
-
-template<class T, size_t block_size>
-typename MemoryPool<T, block_size>::slot_pointer
-MemoryPool<T, block_size>::_last_slot = nullptr;
-
-template<class T, size_t block_size>
-typename MemoryPool<T, block_size>::slot_pointer
-MemoryPool<T, block_size>::_free_slot = nullptr;
+MemoryPool::~MemoryPool() noexcept
+{
+  slot_pointer curr = cur_block_;
+  while(curr != nullptr){
+    slot_pointer prev = curr->next;
+    operator delete ( reinterpret_cast<void *>(curr) );
+    curr = prev;
+  }
+}
 
 template <class T, size_t block_size>
 inline typename MemoryPool<T, block_size>::pointer
