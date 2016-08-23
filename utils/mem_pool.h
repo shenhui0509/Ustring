@@ -25,6 +25,10 @@ public:
   typedef size_t    size_type;
   typedef ptrdiff_t difference_type;
   
+  MemoryPool() noexcept;
+  DEFAULT_MOVE_AND_MOVEASSIGN(MemoryPool);
+  ~MemoryPool() noexcept;
+  
   template <class U> struct rebind { typedef MemoryPool<U> other; };
 
   static pointer address(reference x) noexcept;
