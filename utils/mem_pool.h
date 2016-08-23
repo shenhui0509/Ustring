@@ -11,7 +11,7 @@ namespace ustr
  * especially for 'node' for the FSM(NFA/DFA)
  * 'T' : the type that the memory pool handles
  * 'block_size' : default size for initialize the pool and allocate extra blocks from system
- * /
+ */
  
 template<class T, size_t block_size>
 class MemoryPool
