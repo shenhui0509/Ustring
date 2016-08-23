@@ -52,10 +52,10 @@ private:
   typedef slot slot_type;
   typedef slot* slot_pointer;
   
-  static slot_pointer cur_block_;
-  static slot_pointer cur_slot_;
-  static slot_pointer last_slot_;
-  static slot_pointer free_slot_;
+  slot_pointer cur_block_;
+  slot_pointer cur_slot_;
+  slot_pointer last_slot_;
+  slot_pointer free_slot_;
   
   static size_type pad_pointer(data_pointer p, size_type align) noexcept;
   static void allocate_block();
