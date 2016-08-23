@@ -9,6 +9,11 @@ private:                                \
 #define DEFAULT_COPY_AND_ASSIGN(type)   \
 public:                                 \
   type(const type&) = default;          \
-  type& operato=(const type&) = default 
+  type& operator=(const type&) = default 
+  
+#define DEFAULT_MOVE_AND_MOVEASSIGN     \
+public:                                 \
+  type(type&&) = default;               \
+  type& operator=(type&&) = default
   
 #endif
