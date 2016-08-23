@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/shenhui/Ustring/tests/test_mempool.cpp
+gtest/gtest.h
+-
+mem_pool.h
+/home/shenhui/Ustring/tests/mem_pool.h
+
+utils/ctor_util.h
+
+utils/mem_pool.h
+climits
+-
+cstddef
+-
+ctor_util.h
+utils/ctor_util.h
+mem_pool.tcc
+utils/mem_pool.tcc
+
+utils/mem_pool.tcc
+
