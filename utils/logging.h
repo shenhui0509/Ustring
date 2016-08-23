@@ -37,7 +37,7 @@ int32_t min_log_lovel = LOG_LEVEL;
 #define LOG_INFO LogMessage(__FILE__, __LINE__, 0)
 #define LOG_WARNING LogMessage(__FILE__, __LINE__, 1)
 #define LOG_ERROR   LogMessage(__FILE__, __LINE__, 2)
-#define LOG_FATAL   LogMessage(__FILE__, __LINE__)
+#define LOG_FATAL   LogMessageFatal(__FILE__, __LINE__)
 #define LOG_QFATAL  LOG_FATAL
 
 #ifdef NDEBUG
