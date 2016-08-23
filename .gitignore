@@ -27,4 +27,11 @@
 *.exe
 *.out
 *.app
+*.pyc
+# Cmake caches
+bin
+*.cmake
 
+CMakeFiles
+tests/*.cmake
+tests/CMakeFiles
