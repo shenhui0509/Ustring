@@ -7,6 +7,8 @@
 #include <ostream>
 #include <sstream>
 
+#include "ctor_util.h"
+
 #define DEFAULT_LOG_LEVEL 0
 #ifndef LOG_LEVEL
   #define LOG_LEVEL DEFAULT_LOG_LEVEL
@@ -76,8 +78,7 @@ private:
   const int severity_;
   bool flushed_;
   std::ostringstream str_;
-  LogMessage(const LogMessage&) = delete;
-  LogMessage& operator=(const LogMessage&) = delete;
+  FORBID_COPY_AND_ASSIGN(LogMessage);
 };
 
 class LogMessageFatal : public LogMessage
@@ -89,9 +90,7 @@ public:
     Flush();
     abort();
   }
-private:
-  LogMessageFatal(const LogMessageFatal&) = delete;
-  LogMessageFatal& operator=(const LogMessageFatal&) = delete;
+  FORBID_COPY_AND_ASSIGN(LogMessageFatal);
 };
 
 #endif
