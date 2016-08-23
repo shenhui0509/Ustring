@@ -84,6 +84,66 @@ MemoryPool<T, block_size>::allocate(size_type n, const pointer hint)
   return result;
 }
 
+template<class T, size_t block_size>
+inline void  MemoryPool<T,block_size>::deallocate(pointer ptr, size_type n)
+{
+  if(!ptr)
+    return;
+    
+  slot_pointer head = reinterpret_cast<slot_pointer>(p);
+  slot_pointer p = head;
+  while(p->next)
+    p = p->next;
+    
+  p->next = free_slot_;
+  free_slot_ = head;
+}
+
+template<class T, size_t block_size>
+inline typename MemoryPool<T, block_size>::size_type
+MemoryPool<T, block_size>::max_size()
+const noexcept
+{
+  size_type max_block = -1 / block_size;
+  return (block_size - sizeof(data_pointer)) / sizeof(slot_type) * max_block;
+}
+
+template<typename T, size_type block_size>
+template<typename U, class... Args>
+inline void
+MemoryPool<T, block_size>::construct(U *p, Args&&... args)
+{
+  new(p) U (std::forward<Args>(args)...);
+}
+
+template<class T, size_type block_size>
+template<class U>
+inline void
+MemoryPool<T, block_size>::destroy(U *p)
+{
+  p->~U();
+}
+
+template<class T, size_t block_size>
+template<class... Args>
+inline typename MemoryPool<T,block_size>::pointer
+MemoryPool<T,block_size>::new_element(Args&&... args)
+{
+  pointer p = allocate();
+  construct<value_type>(p, std::forward<Args>(args)...);
+  return p;
+}
+
+template<class T, size_t block_size>
+inline void 
+MemoryPool<T, block_size>::delete_element(pointer p)
+{
+  if(!p)
+    return;
+    
+  p->~value_type();
+  deallocate(p);
+}
 
 }//namespace ustr
 #endif
