@@ -2,7 +2,7 @@
 #define PATTERN_SEARCH_H_
 
 #include <string>
-#include <vector>
+#include <array>
 #include "utils/ctor_util.h"
 /*
  * This is for naive string search,
@@ -16,9 +16,11 @@
  * We can use some more efficient algorithms, i.e. KMP or BoyerMoore, which are O(M+N)
  */
 namespace ustr{
-  
+
+constexpr int char_num = 256;
+
 using std::string;
-using std::vector;
+using std::array;
 using size_type = string::size_type;
 
 class PatternSearcher
@@ -30,7 +32,7 @@ public:
   static size_t Rfind(const string &text, const string &pattern) noexcept;
 private:
   static boyer_moore_internal(const string &text, const string &pattern);
-  static vector<size_t> bad_chars;
+  static array<size_t, char_num> bad_chars;
   FORBID_COPY_AND_ASSIGN(PatternSearcher);
 };
 }//namespace ustr
