@@ -31,7 +31,7 @@ public:
   static size_t Find(const string &text, const string &pattern) noexcept;
   static size_t Rfind(const string &text, const string &pattern) noexcept;
 private:
-  static boyer_moore_internal(const string &text, const string &pattern);
+  static size_t boyer_moore_internal(const string &text, const string &pattern);
   static array<size_t, char_num> bad_chars;
   FORBID_COPY_AND_ASSIGN(PatternSearcher);
 };
