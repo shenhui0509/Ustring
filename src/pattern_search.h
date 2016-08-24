@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-
+#include "utils/ctor_util.h"
 /*
  * This is for naive string search,
  * given a 'text' and 'pattern', determine whether the 'pattern' is in the 'text'
@@ -16,7 +16,23 @@
  * We can use some more efficient algorithms, i.e. KMP or BoyerMoore, which are O(M+N)
  */
 namespace ustr{
+  
+using std::string;
+using std::vector;
+using size_type = string::size_type;
 
+class PatternSearcher
+{
+public:
+  static bool Match(const string &text, const string &pattern) noexcept;
+  static size_t Count(const string &text, const string &pattern) noexcept;
+  static size_t Find(const string &text, const string &pattern) noexcept;
+  static size_t Rfind(const string &text, const string &pattern) noexcept;
+private:
+  static boyer_moore_internal(const string &text, const string &pattern);
+  static vector<size_t> bad_chars;
+  FORBID_COPY_AND_ASSIGN(PatternSearcher);
+};
 }//namespace ustr
 
 
