@@ -33,11 +33,10 @@ private:
  
  static const  states initial_state = SInit;
  
- void on_sign(Sign const&);
- void on_num(Num const&);
- void on_dot(Dot const&);
- void on_exp(Exp const&);
- void on_valid(Invalid const&);
+ void on_sign(Sign const&){}
+ void on_num(Num const&){}
+ void on_dot(Dot const&){}
+ void on_exp(Exp const&){}
  friend class state_machine<number_check>;
  typedef number_check n;
  
