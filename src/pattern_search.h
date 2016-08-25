@@ -17,7 +17,7 @@
  */
 namespace ustr{
 
-constexpr int char_num = 256;
+constexpr int ASCII_NUM = 256;
 
 using std::string;
 using std::array;
@@ -32,7 +32,7 @@ public:
   static size_t Rfind(const string &text, const string &pattern) noexcept;
 private:
   static size_t boyer_moore_internal(const string &text, const string &pattern);
-  static array<size_t, char_num> bad_chars;
+  static array<size_t, ASCII_NUM> bad_chars;
   FORBID_COPY_AND_ASSIGN(PatternSearcher);
 };
 }//namespace ustr
