@@ -10,6 +10,13 @@ namespace ustr {
     
     typedef signed int Rune; /* 4 byte */
 
+    struct RuneRange {
+      RuneRange() : lo(0), hi(0) {}
+      RuneRange(int l, int h) : lo(l), hi(h) {}
+      Rune lo;
+      Rune hi;
+    };
+    
     enum {
       UTFMax = 4; /* maximum bytes per rune*/
       Runesync = 0x80; /* cannot represent of a UTF sequence */
