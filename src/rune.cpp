@@ -23,9 +23,9 @@ enum
   T5 = ((1 << (Bit5 + 1)) - 1) ^ 0xff, /* 1111 1000*/
   
   Rune1	= (1<<(Bit1+0*Bitx))-1,		/* 0000 0000 0111 1111 */
-	Rune2	= (1<<(Bit2+1*Bitx))-1,		/* 0000 0111 1111 1111 */
-	Rune3	= (1<<(Bit3+2*Bitx))-1,		/* 1111 1111 1111 1111 */
-	Rune4	= (1<<(Bit4+3*Bitx))-1,   /* 0001 1111 1111 1111 1111 1111*/
+  Rune2	= (1<<(Bit2+1*Bitx))-1,		/* 0000 0111 1111 1111 */
+  Rune3	= (1<<(Bit3+2*Bitx))-1,		/* 1111 1111 1111 1111 */
+  Rune4	= (1<<(Bit4+3*Bitx))-1,   /* 0001 1111 1111 1111 1111 1111*/
   
   Maskx = (1 << Bitx) - 1.
   Testx = Maskx ^ 0xff,
@@ -50,7 +50,36 @@ int char2rune(Rune *rune, const char *str)
     if(c < T2)
       goto bad;
     l = ((c << Bitx) | c1) & Rune2;
+    if(l <= Rune1)
+    	goto bad;
+    return 2;
   }
+  
+  c2 = *(unsigned char*)(str+2) ^ Tx;
+  if(c2 & Textx)
+  	goto bad;
+  if(c < T4){
+  	l = (((( c << Bitx ) | c1) << Bitx) | c2) & Rune3;
+  	if(l <= Rune2)
+  		goto bad;
+  	*rune = l;
+  	return 3;
+  }
+  
+  c3 = *(unsigned char*)(str + 3) ^ Tx;
+  if(c3 & Textx)
+  	goto bad;
+  if(c < T5){
+  	l = ((((((c << Bitx) | c1) << Bitx) | c2) << Bitx) | c3) & Rune4;
+  	if (l <= Rune3)
+			goto bad;
+		*rune = l;
+		return 4;
+  }
+  
+bad:
+	*rune = Bad;
+	return 1;
 }
 }//namespace re
 }//namespace ustr
