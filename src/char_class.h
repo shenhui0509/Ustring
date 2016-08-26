@@ -2,7 +2,8 @@
 #define USTR_CHAR_CLASS_H_
 
 #include "rune.h"
-#include "ctor_utils.h"
+#include "utils/ctor_util.h"
+
 namespace ustr{
 namespace re{
 
