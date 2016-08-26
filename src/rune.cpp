@@ -81,5 +81,122 @@ bad:
 	*rune = Bad;
 	return 1;
 }
+
+int rune2char(char *str, const Rune *rune)
+{
+	unsigned long c;
+	
+	/* one character sequence
+	 * 00000-0007f --> 00-7f
+	 */
+	 c = *rune;
+	 if(c <= Rune1){
+	 	str[0] = static_cast<char>(c);
+	 	return 1;
+	 }
+	 
+	 /* 2 characters sequence
+	  * 0080-07ff --> T2 Tx
+	  */
+	  if(c <= Rune2){
+	  	str[0] = Tx | static_cast<char>(c >> 1 * Bitx);
+	  	str[1] = Tx | (c & Maskx);
+	  	return 2;
+	  }
+	  
+	  if(c > Runemax)
+	  	c = Runeerror;
+	  	
+	  /* 3 characters sequence
+	   * 0x800-FFFF --> T3 Tx Tx
+	   */
+	   if(c <= Rune3){
+	   		str[0] = T3 | static_cast<char>(c >> 2 * Bitx);
+	   		str[1] = Tx | ((c >> 1 * Bitx) & Maskx);
+	   		str[2] = Tx | (c & Maskx);
+	   		return 3;
+	   }
+	   
+	   /* 4 characters sequence
+	    * 10000-1ffff -> T4 Tx Tx Tx
+	    */
+	    str[0] = T4 | static_cast<char>(c >> 3 * Bitx);
+	    str[1] = Tx | ((c >> 2 * Bitx) & Maskx);
+	    str[2] = Tx | ((c >> 1 * Bitx) & Maskx);
+	    str[3] = Tx | (c & Maskx);
+	    return 4;
+	   
+}
+
+int runelen(Rune rune)
+{
+	char str[10];
+	return rune2char(str, &rune);
+}
+
+int fullrune(const char *str, int n)
+{
+	if(n > 0){
+		int c = *(unsigned char*)str;
+		if(c < Tx)
+			return 1;
+		if(n > 1){
+			if(c < T3)
+				return 1;
+			if(n > 2){
+				if(c < T4 || n > 3)
+					return 1;
+			}
+		}
+	}
+	return 0;
+}
+
+int utflen(const char *s)
+{
+	int c;
+	long n;
+	Rune rune;
+	n = 0;
+	for(;;){
+		c = *(unsigned char*)s;
+		if(c < Runself){
+			if(c == 0)
+				return n;
+			s++;
+		} else {
+			s += char2rune(&rune, s);
+		}
+		n++;
+	}
+	return 0;
+}
+
+char* utfrune(const char *s, Rune c)
+{
+	long c1;
+	Rune r;
+	int n;
+	
+	if(c < Runesync)
+		return strchr((char*)s, c);
+		
+	for(;;){
+		c1 = *(unsigned char*)s;
+		if(c1 < Runeself){
+			if(c1 == 0)
+				return 0;
+			if(c1 == c)
+				return (char*)s;
+			s++;
+			continue;
+		}
+		n = char2rune(&r, s);
+		if(r == c)
+			return (char*)s;
+		s += n;
+	}
+	return 0;
+}
 }//namespace re
 }//namespace ustr
