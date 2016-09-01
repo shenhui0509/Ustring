@@ -4,9 +4,14 @@
 
 class MockObject
 {
+  public:
   long long field1;
   long long field2;
   unsigned short field3;
+  public:
+  MockObject(long long ll1, long long ll2, unsigned short us3):
+    field1(ll1), field2(ll2), field3(us3)
+  {}
 };
 
 TEST(MEMPOOL_TEST, Allocate)
@@ -20,6 +25,16 @@ TEST(MEMPOOL_TEST, Allocate)
   EXPECT_EQ(pMo2 + 1, pMo3);
   EXPECT_EQ(pMO1, mem_pool.address(*pMO1));
   mem_pool.deallocate(pMO1);
+}
+
+TEST(MEMPOOL_TEST, new_and_delete)
+{
+  ustr::MemoryPool<MockObject, 1024> mp;
+  auto p1 = mp.new_element(1,2,3);
+  EXPECT_EQ(p1->field1, 1);
+  EXPECT_EQ(p1->field2, 2);
+  EXPECT_EQ(p1->field3, 3);
+  mp.delete_element(p1);
 }
 
 int main(int argc, char* argv[])
