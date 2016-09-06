@@ -20,7 +20,7 @@ public:
   bool full() const noexcept { return nrunes_ == Runemax + 1;}
   bool FoldsASCII() const noexcept {return folds_ascii_;}
   bool Contains(Rune r) const noexcept;
-  CharClass* Negate() const noexcept;
+  CharClass* Negate();
 private:
   CharClass();
   ~CharClass();
@@ -49,7 +49,7 @@ class CharClassBuilder
     bool full() const noexcept {return nrunes_  == Runemax + 1;}
 
     bool contains(Rune r);
-    bool FoldASCII();
+    bool FoldsASCII();
     bool AddRange(Rune lo, Rune hi);
     CharClassBuilder* copy();
     void AddCharClass(CharClassBuilder *ccb);
