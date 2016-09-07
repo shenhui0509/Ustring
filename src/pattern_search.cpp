@@ -1,4 +1,4 @@
-#include <alogrithm> // std::max
+#include <algorithm> // std::max
 #include <vector>
 #include "pattern_search.h"
 
@@ -11,6 +11,7 @@ using std::vector;
 
 
 bool PatternSearcher::Match(const string &text, const string &pattern)
+noexcept
 {
   auto m = text.size(), n = pattern.size();
   if(m * n <= threshold)
@@ -19,11 +20,13 @@ bool PatternSearcher::Match(const string &text, const string &pattern)
 }
 
 size_t PatternSearcher::Count(const string &text, const string &pattern)
+noexcept
 {
   return boyer_moore_internal(text, pattern, false);
 }
 
 size_t PatternSearcher::Find(const string &text, const string &pattern)
+noexcept
 {
   auto m = text.size(), n = pattern.size();
   if(m * n <= threshold)
@@ -31,7 +34,8 @@ size_t PatternSearcher::Find(const string &text, const string &pattern)
   return boyer_moore_internal(text, pattern, true);
 }
 
-size_t PatternSearcher::RFind(const string &text, const string &pattern)
+size_t PatternSearcher::Rfind(const string &text, const string &pattern)
+noexcept
 {
   auto m = text.size(), n = pattern.size();
   if(m * n <= threshold)
@@ -96,7 +100,7 @@ static vector<int> compile_good_suffix(const string &pattern)
   return good_suffix;
 }
 
-size_t boyer_moore_internal(const string &text, const string &pattern, bool match)
+size_t PatternSearcher::boyer_moore_internal(const string &text, const string &pattern, bool match)
 {
     auto bad_char = compile_bad_char(pattern);
   auto good_suffix = compile_good_suffix(pattern);

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "mem_pool.h"
+#include "utils/mem_pool.h"
 
 
 class MockObject

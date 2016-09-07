@@ -6,6 +6,7 @@
 #include <cstdint>
 #include <ostream>
 #include <sstream>
+#include <string>
 
 #include "ctor_util.h"
 
@@ -14,7 +15,7 @@
   #define LOG_LEVEL DEFAULT_LOG_LEVEL
 #endif
 
-int32_t min_log_lovel = LOG_LEVEL;
+static int32_t min_log_level = LOG_LEVEL;
 
 /* Debug-only checking */
 #define DCHECK(condition) assert(condition)
@@ -62,7 +63,7 @@ public:
   {
     stream() << "\n";
     if(severity_ >= min_log_level){
-      string s = str_.str();
+      std::string s = str_.str();
       size_t n = s.size();
       if(fwrite(s.data(), 1, n, stderr) < n){}
     }
@@ -70,7 +71,7 @@ public:
   }
   ~LogMessage()
   {
-    if(!flushed)
+    if(!flushed_)
       Flush();
   }
   std::ostream& stream() {return str_;}

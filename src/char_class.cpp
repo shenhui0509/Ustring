@@ -47,6 +47,12 @@ CharClass* CharClass::Negate()
   return cc;
 }
 
+/* *****************************CharClassBuilder**************** */
+
+CharClassBuilder::CharClassBuilder() :
+  upper_(0), lower_(0), nrunes_(0)
+{}
+
 bool CharClass::Contains(Rune r) const noexcept
 {
   RuneRange *rr = ranges_;
@@ -142,11 +148,11 @@ bool CharClassBuilder::AddRange(Rune lo, Rune hi)
     Rune lo1 = std::max<Rune>(lo, 'A');
     Rune hi1 = std::min<Rune>(hi, 'Z');
     if(lo1 <= hi1)
-      upper_ |= ((1 << (hi - lo + 1)) - 1) << (lo1 - 'A');
+      upper_ |= ((1 << (hi1 - lo1 + 1)) - 1) << (lo1 - 'A');
     lo1 = std::max<Rune>(lo, 'a');
     hi1 = std::min<Rune>(hi, 'z');
     if(lo1 <= hi1)
-      lower_ |= ((1 << (hi - lo + 1)) - 1) << (hi1 - 'a');
+      lower_ |= ((1 << (hi1 - lo1 + 1)) - 1) << (lo1 - 'a');
   }
 
   {
@@ -185,6 +191,12 @@ bool CharClassBuilder::AddRange(Rune lo, Rune hi)
   nrunes_ += hi - lo + 1;
   ranges_.insert(RuneRange(lo, hi));
   return true;
+}
+
+void CharClassBuilder::AddCharClass(CharClassBuilder *cc)
+{
+  for(auto it = cc->begin(); it != cc->end(); ++it)
+    AddRange(it->lo, it->hi);
 }
 
 void CharClassBuilder::Negate()

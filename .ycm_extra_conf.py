@@ -77,7 +77,9 @@ flags = [
 '-I',
 './ClangCompleter',
 '-I',
-'./utils'
+'./utils',
+'-I',
+'./src'
 ]
 
 

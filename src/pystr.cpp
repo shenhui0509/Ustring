@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <cctype>
 
-#include "pystr.hpp"
+#include "pystr.h"
 
 namespace ustr{
 inline std::string capitalize (const std::string &str)
@@ -339,7 +339,6 @@ rsplit(const std::string &str, const std::string &seperator, int maxsplit)
     while (maxsplit != 0) {
         prev_pos = pos;
         pos = rfind(str, seperator, 0, pos);
-        std::cout << pos << "\n";
         if (pos == npos) {
             result.push_back(str.substr(0, prev_pos));
             break;
