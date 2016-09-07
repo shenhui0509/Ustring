@@ -1,3 +1,4 @@
+#include <vector>
 #include "utils/logging.h"
 #include "char_class.h"
 
@@ -185,6 +186,38 @@ bool CharClassBuilder::AddRange(Rune lo, Rune hi)
   ranges_.insert(RuneRange(lo, hi));
   return true;
 }
+
+void CharClassBuilder::Negate()
+{
+  std::vector<RuneRange> v;
+  v.reserve(ranges_.size() + 1);
+
+  auto it = begin();
+  if(it == end()){
+    v.push_back(RuneRange(0, Runemax));
+  } else {
+    int next_lo = 0;
+    if(it->lo == 0){
+      next_lo = it->hi + 1;
+      ++it;
+    }
+    for(; it != end(); ++it){
+      v.push_back(RuneRange(next_lo, it->lo - 1));
+      next_lo = it->hi + 1;
+    }
+    if(next_lo <= Runemax){
+      v.push_back(RuneRange(next_lo, Runemax));
+    }
+  }
+
+  ranges_.clear();
+  for(auto r : v)
+    ranges_.insert(r);
+  upper_ = AlphaMask & ~upper_;
+  lower_ = AlphaMask & ~lower_;
+  nrunes_ = Runemax + 1 - nrunes_;
+}
+
 
 }//namespace re
 }//namespace ustr

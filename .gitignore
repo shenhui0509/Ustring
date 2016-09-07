@@ -31,7 +31,6 @@
 # Cmake caches
 bin
 *.cmake
-
 CMakeFiles
 tests/*.cmake
 tests/CMakeFiles

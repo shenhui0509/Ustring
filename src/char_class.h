@@ -53,7 +53,7 @@ class CharClassBuilder
     bool AddRange(Rune lo, Rune hi);
     CharClassBuilder* copy();
     void AddCharClass(CharClassBuilder *ccb);
-    void Negeate();
+    void Negate();
     void RemoveAbove(Rune r);
 
     CharClass *GetCharClass();
