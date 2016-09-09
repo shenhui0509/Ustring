@@ -12,3 +12,4 @@ endfunction()
 
 cxx_executable(test_mempool)
 cxx_executable(test_charclass)
+cxx_executable(test_patternsearch)

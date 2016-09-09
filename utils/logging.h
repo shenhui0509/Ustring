@@ -7,6 +7,7 @@
 #include <ostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 #include "ctor_util.h"
 
@@ -94,4 +95,16 @@ public:
   FORBID_COPY_AND_ASSIGN(LogMessageFatal);
 };
 
+using std::vector;
+
+template<class T>
+std::ostream& operator<<(std::ostream &os, const vector<T> &to_log)
+{
+  for(size_t i = 1; i <= to_log.size(); ++i){
+    os << "[" << i << "," << to_log[i-1] << "]\t";
+    if(i % 10 == 0)
+      os << "\n";
+  }
+  return os;
+}
 #endif
